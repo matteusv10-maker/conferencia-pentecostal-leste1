@@ -64,3 +64,8 @@ function clean_(value) {
 function json_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
+
+// Rode uma vez pelo editor para autorizar e criar o cabeçalho
+function setup() {
+  getSheet_();
+}

@@ -1,5 +1,5 @@
 // URL do Web App do Google Apps Script vinculado à planilha "CONFIRMAÇÃO LESTE 1"
-const SCRIPT_URL = "";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyTGGQPztvnBm9mxe8NMgK6OeIFQEKN4e96lQgGf7pkCReM7JzVyIaza562JZEwcMQy7g/exec";
 
 const form = document.getElementById("rsvp");
 const btn = form.querySelector(".btn");
