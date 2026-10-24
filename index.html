@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Conferência Pentecostal · UMADESP Leste 1 · 31/10</title>
+  <meta name="description" content="Conferência Pentecostal da UMADESP Leste 1 — o dia mais pentecostal do ano. Sábado, 31 de outubro. Confirme sua presença.">
+  <meta name="theme-color" content="#003616">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Conferência Pentecostal · UMADESP Leste 1">
+  <meta property="og:description" content="O dia mais pentecostal do ano. Sábado, 31 de outubro. Confirme sua presença.">
+  <meta property="og:image" content="https://matteusv10-maker.github.io/conferencia-pentecostal-leste1/assets/og.jpg">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Raleway:ital,wght@0,400;0,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/logo-conferencia.webp">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <img class="bg-photo" src="assets/foto.webp" alt="" width="1000" height="1500" decoding="async">
+    <div class="bg-paper"></div>
+    <div class="bg-grunge"></div>
+    <div class="bg-dots"></div>
+    <div class="bg-glow"></div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="https://www.instagram.com/umadesp.leste1/" target="_blank" rel="noopener">
+      <img src="assets/leste1.webp" alt="Leste 1" width="240" height="226">
+      <span>UMADESP LESTE 1</span>
+    </a>
+    <a class="insta" href="https://www.instagram.com/umadesp.leste1/" target="_blank" rel="noopener" aria-label="Instagram @umadesp.leste1">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM21.9 7.9c-.1-1.6-.4-3-1.6-4.2S17.7 2.2 16.1 2.1C14.4 2 9.6 2 7.9 2.1 6.3 2.2 4.9 2.5 3.7 3.7S2.2 6.3 2.1 7.9C2 9.6 2 14.4 2.1 16.1c.1 1.6.4 3 1.6 4.2s2.6 1.5 4.2 1.6c1.7.1 6.5.1 8.2 0 1.6-.1 3-.4 4.2-1.6s1.5-2.6 1.6-4.2c.1-1.7.1-6.5 0-8.2Zm-2.1 10.1a3.3 3.3 0 0 1-1.9 1.9c-1.3.5-4.4.4-5.9.4s-4.6.1-5.9-.4a3.3 3.3 0 0 1-1.9-1.9c-.5-1.3-.4-4.4-.4-5.9s-.1-4.6.4-5.9a3.3 3.3 0 0 1 1.9-1.9c1.3-.5 4.4-.4 5.9-.4s4.6-.1 5.9.4a3.3 3.3 0 0 1 1.9 1.9c.5 1.3.4 4.4.4 5.9s.1 4.6-.4 5.9Z"/></svg>
+      <span>@umadesp.leste1</span>
+    </a>
+  </header>
+
+  <main class="hero">
+    <section class="intro">
+      <h1 class="sr-only">Conferência Pentecostal UMADESP Leste 1</h1>
+      <img class="logo" src="assets/logo-conferencia.webp" alt="Conferência Pentecostal — UMADESP Leste 1" width="1000" height="535" fetchpriority="high">
+      <div class="meta">
+        <p class="tagline">O dia mais <em>pentecostal</em> do ano</p>
+        <p class="date">
+          <span class="date-day">sábado</span>
+          <span class="date-mark"><span>31 OUT</span><img src="assets/elipse.webp" alt="" width="339" height="112"></span>
+        </p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="form-title">
+      <div class="card-body" id="form-view">
+        <h2 id="form-title">Confirme sua <span>presença</span></h2>
+        <p class="lead">Leva menos de 1 minuto. A gente te espera!</p>
+
+        <form id="rsvp" novalidate>
+          <div class="field">
+            <label for="nome">Nome completo</label>
+            <input id="nome" name="nome" type="text" autocomplete="name" placeholder="Seu nome e sobrenome" required minlength="3" maxlength="120">
+            <small class="error" data-for="nome"></small>
+          </div>
+
+          <div class="field">
+            <label for="whatsapp">WhatsApp</label>
+            <input id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="(11) 90000-0000" required maxlength="16">
+            <small class="error" data-for="whatsapp"></small>
+          </div>
+
+          <fieldset class="field">
+            <legend>Você é de alguma igreja?</legend>
+            <div class="toggle">
+              <label><input type="radio" name="igreja" value="sim" required><span>Sim</span></label>
+              <label><input type="radio" name="igreja" value="nao"><span>Não</span></label>
+            </div>
+            <small class="error" data-for="igreja"></small>
+          </fieldset>
+
+          <div class="reveal" id="igreja-wrap" aria-hidden="true">
+            <div class="field">
+              <label for="nome_igreja">Nome da igreja</label>
+              <input id="nome_igreja" name="nome_igreja" type="text" placeholder="Nome da sua igreja ou congregação" maxlength="120" tabindex="-1">
+              <small class="error" data-for="nome_igreja"></small>
+            </div>
+          </div>
+
+          <!-- honeypot anti-spam -->
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <button class="btn" type="submit">
+            <span class="btn-label">Confirmar presença</span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+          <p class="status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <div class="card-body success" id="success-view" hidden tabindex="-1">
+        <div class="success-icon" aria-hidden="true">🔥</div>
+        <h2>Presença <span>confirmada!</span></h2>
+        <p class="lead"><strong id="success-name">Você</strong>, te esperamos no dia <strong>31 de outubro</strong> para o dia mais pentecostal do ano.</p>
+        <a class="btn btn-ghost" href="https://www.instagram.com/umadesp.leste1/" target="_blank" rel="noopener">Seguir @umadesp.leste1</a>
+        <button class="link" type="button" id="again">Confirmar outra pessoa</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Somos UMADESP. Somos Madureira.</span>
+    <span class="dot" aria-hidden="true">•</span>
+    <span>Regional Leste 1</span>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
