@@ -114,6 +114,7 @@ function criarResumo() {
     [f(`=IFERROR(INDEX(${src}A2:A§COUNTA(${src}A2:A))§"—")`)],
   ]);
   sh.getRange("B5").setFontSize(18).setFontWeight("bold").setFontColor(GREEN);
+  sh.getRange("B9").setNumberFormat("dd/mm/yyyy hh:mm");
 
   // Por regional (lista fixa, mostra também quem está com zero)
   const linhas = [...REGIONAIS, "Nenhuma", "Outras"];
