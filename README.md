@@ -1,5 +1,7 @@
 # Conferência Pentecostal · UMADESP Leste 1
 
+Site: https://umadespleste1.com.br
+
 Landing page de 1 dobra para confirmação de presença na Conferência Pentecostal da UMADESP Leste 1 (31/10).
 
 - `index.html`, `styles.css`, `script.js` — site estático (GitHub Pages)
