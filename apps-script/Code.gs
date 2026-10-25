@@ -7,7 +7,7 @@
  *   - Quem pode acessar: Qualquer pessoa
  * Copie a URL /exec gerada para SCRIPT_URL em script.js.
  */
-const HEADERS = ["Data/Hora", "Nome completo", "WhatsApp", "É de alguma igreja?", "Nome da igreja"];
+const HEADERS = ["Data/Hora", "Nome completo", "WhatsApp", "É de alguma igreja?", "Nome da igreja", "Regional"];
 const TIMEZONE = "America/Sao_Paulo";
 
 function doPost(e) {
@@ -30,6 +30,7 @@ function doPost(e) {
       whatsapp,
       temIgreja ? "Sim" : "Não",
       temIgreja ? clean_(p.nome_igreja) : "",
+      temIgreja ? clean_(p.regional) : "",
     ]);
     return json_({ ok: true });
   } catch (err) {
@@ -48,9 +49,15 @@ function getSheet_() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
-    sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold").setBackground("#003616").setFontColor("#ffffff");
     sheet.setFrozenRows(1);
     sheet.getRange("C:C").setNumberFormat("@");
+  }
+  // colunas novas entram no fim, sem mexer nas respostas já gravadas
+  const header = sheet.getRange(1, 1, 1, HEADERS.length);
+  const current = header.getValues()[0];
+  if (current.some((v) => v === "")) {
+    header.setValues([HEADERS.map((h, i) => current[i] || h)]);
+    header.setFontWeight("bold").setBackground("#003616").setFontColor("#ffffff");
   }
   return sheet;
 }

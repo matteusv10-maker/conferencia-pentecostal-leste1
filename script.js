@@ -7,6 +7,8 @@ const statusEl = form.querySelector(".status");
 const phone = document.getElementById("whatsapp");
 const churchWrap = document.getElementById("igreja-wrap");
 const churchInput = document.getElementById("nome_igreja");
+const regionalInput = document.getElementById("regional");
+const regionalList = document.getElementById("regional-list");
 const formView = document.getElementById("form-view");
 const successView = document.getElementById("success-view");
 
@@ -24,18 +26,139 @@ phone.addEventListener("input", () => {
   clearError("whatsapp");
 });
 
-// ---------- "Você é de alguma igreja?" ----------
+// ---------- Campos condicionais ----------
+function setOpen(wrap, open, fields) {
+  wrap.classList.toggle("open", open);
+  wrap.setAttribute("aria-hidden", String(!open));
+  // depois de abrir, libera o overflow para a lista de sugestões não ser cortada
+  clearTimeout(wrap.settleTimer);
+  if (open) wrap.settleTimer = setTimeout(() => wrap.classList.add("settled"), 320);
+  else wrap.classList.remove("settled");
+  fields.forEach((field) => {
+    field.tabIndex = open ? 0 : -1;
+    field.required = open;
+    if (!open) clearError(field.name);
+  });
+}
+
+// "Você é de alguma igreja?" → Regional + Nome da igreja
 form.querySelectorAll('input[name="igreja"]').forEach((radio) => {
   radio.addEventListener("change", () => {
     const yes = radio.value === "sim" && radio.checked;
-    churchWrap.classList.toggle("open", yes);
-    churchWrap.setAttribute("aria-hidden", String(!yes));
-    churchInput.tabIndex = yes ? 0 : -1;
-    churchInput.required = yes;
-    if (yes) setTimeout(() => churchInput.focus(), 150);
-    else clearError("nome_igreja");
+    setOpen(churchWrap, yes, [regionalInput, churchInput]);
+    if (yes) setTimeout(() => regionalInput.focus(), 150);
+    else closeRegionalList();
     clearError("igreja");
   });
+});
+
+// ---------- Regional: digita o número e aparecem as sugestões ----------
+const REGIONAIS = ["R01", "R05", "R06", "R07", "R16", "R17", "R34", "R35", "R37", "R38", "R51", "R56", "R57", "R64", "R65", "R85", "R97", "R103"];
+let suggestions = [];
+let activeIndex = -1;
+
+// "R05", "r 5", "regional 05" e "5" viram a mesma chave: "5"
+function regionalKey(text) {
+  return text.toUpperCase().replace(/REGIONAL|\s/g, "").replace(/^R/, "").replace(/^0+(?=\d)/, "");
+}
+
+function normalizeRegional(text) {
+  const t = text.trim();
+  if (!t) return "";
+  const key = regionalKey(t);
+  if (/^\d+$/.test(key)) return REGIONAIS.find((r) => regionalKey(r) === key) || `R${key.padStart(2, "0")}`;
+  if (t.length >= 3 && "NENHUMA".startsWith(t.toUpperCase())) return "Nenhuma";
+  return t;
+}
+
+function findSuggestions(query) {
+  const q = query.trim();
+  if (!q) return [...REGIONAIS, "Nenhuma"].map((value) => ({ value, label: value }));
+  const key = regionalKey(q);
+  const digits = q.toUpperCase().replace(/REGIONAL|\s/g, "").replace(/^R/, "");
+  const list = /^\d+$/.test(digits)
+    ? REGIONAIS.filter((r) => (digits.startsWith("0") ? r.slice(1).startsWith(digits) : regionalKey(r).startsWith(key)))
+    : "NENHUMA".startsWith(q.toUpperCase()) ? ["Nenhuma"] : [];
+  const items = list.map((value) => ({ value, label: value }));
+  const typed = normalizeRegional(q);
+  if (!list.includes(typed) && key !== "0") items.push({ value: typed, label: `Usar ${typed}`, other: true });
+  return items;
+}
+
+function renderRegionalList() {
+  suggestions = findSuggestions(regionalInput.value);
+  activeIndex = regionalInput.value.trim() && suggestions.length ? 0 : -1;
+  regionalList.replaceChildren(...suggestions.map((item, i) => {
+    const li = document.createElement("li");
+    li.id = `regional-opt-${i}`;
+    li.setAttribute("role", "option");
+    li.textContent = item.label;
+    if (item.other || item.value === "Nenhuma") li.classList.add("wide");
+    if (item.other) li.classList.add("other");
+    li.addEventListener("pointerdown", (event) => event.preventDefault());
+    li.addEventListener("click", () => chooseRegional(item.value));
+    return li;
+  }));
+  regionalList.hidden = false;
+  regionalInput.setAttribute("aria-expanded", "true");
+  highlight();
+}
+
+function highlight() {
+  [...regionalList.children].forEach((li, i) => {
+    li.classList.toggle("active", i === activeIndex);
+    li.setAttribute("aria-selected", String(i === activeIndex));
+  });
+  const active = regionalList.children[activeIndex];
+  if (active) {
+    regionalInput.setAttribute("aria-activedescendant", active.id);
+    active.scrollIntoView({ block: "nearest" });
+  } else regionalInput.removeAttribute("aria-activedescendant");
+}
+
+function closeRegionalList() {
+  regionalList.hidden = true;
+  regionalInput.setAttribute("aria-expanded", "false");
+  regionalInput.removeAttribute("aria-activedescendant");
+  activeIndex = -1;
+}
+
+function chooseRegional(value) {
+  regionalInput.value = value;
+  closeRegionalList();
+  clearError("regional");
+  churchInput.focus();
+}
+
+// sugestões aparecem ao digitar (ou ao tocar no campo)
+regionalInput.addEventListener("input", renderRegionalList);
+regionalInput.addEventListener("click", renderRegionalList);
+regionalInput.addEventListener("focus", () => {
+  if (matchMedia("(max-width: 480px)").matches) {
+    setTimeout(() => regionalInput.scrollIntoView({ block: "center", behavior: "smooth" }), 250);
+  }
+});
+regionalInput.addEventListener("blur", () => {
+  closeRegionalList();
+  regionalInput.value = normalizeRegional(regionalInput.value);
+});
+
+regionalInput.addEventListener("keydown", (event) => {
+  if (regionalList.hidden) {
+    if (event.key === "ArrowDown") renderRegionalList();
+    return;
+  }
+  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    event.preventDefault();
+    const step = event.key === "ArrowDown" ? 1 : -1;
+    activeIndex = (activeIndex + step + suggestions.length) % suggestions.length;
+    highlight();
+  } else if (event.key === "Enter" && activeIndex >= 0) {
+    event.preventDefault();
+    chooseRegional(suggestions[activeIndex].value);
+  } else if (event.key === "Escape") {
+    closeRegionalList();
+  }
 });
 
 form.querySelectorAll('input[type="text"]').forEach((input) => {
@@ -71,7 +194,10 @@ function validate(data) {
   }
 
   if (!data.igreja) fail("igreja", "Escolha uma opção.");
-  else if (data.igreja === "sim" && data.nome_igreja.length < 2) fail("nome_igreja", "Qual é o nome da sua igreja?");
+  else if (data.igreja === "sim") {
+    if (!data.regional) fail("regional", "Digite o número da sua regional.");
+    if (data.nome_igreja.length < 2) fail("nome_igreja", "Qual é o nome da sua igreja?");
+  }
 
   if (firstInvalid) firstInvalid.focus();
   return !firstInvalid;
@@ -87,12 +213,21 @@ form.addEventListener("submit", async (event) => {
     nome: String(fd.get("nome") || "").trim().replace(/\s+/g, " "),
     whatsapp: String(fd.get("whatsapp") || "").trim(),
     igreja: String(fd.get("igreja") || ""),
+    regional: normalizeRegional(String(fd.get("regional") || "")),
     nome_igreja: String(fd.get("nome_igreja") || "").trim(),
     website: String(fd.get("website") || ""),
   };
-  if (data.igreja !== "sim") data.nome_igreja = "";
 
   if (!validate(data)) return;
+
+  const payload = {
+    nome: data.nome,
+    whatsapp: data.whatsapp,
+    igreja: data.igreja,
+    regional: data.igreja === "sim" ? data.regional : "",
+    nome_igreja: data.igreja === "sim" ? data.nome_igreja : "",
+    website: data.website,
+  };
 
   btn.disabled = true;
   btn.classList.add("loading");
@@ -101,7 +236,7 @@ form.addEventListener("submit", async (event) => {
   try {
     const res = await fetch(SCRIPT_URL, {
       method: "POST",
-      body: new URLSearchParams(data),
+      body: new URLSearchParams(payload),
     });
     const json = await res.json();
     if (!json.ok) throw new Error(json.error || "Falha ao salvar");
@@ -125,10 +260,7 @@ function showSuccess(name) {
 
 document.getElementById("again").addEventListener("click", () => {
   form.reset();
-  churchWrap.classList.remove("open");
-  churchWrap.setAttribute("aria-hidden", "true");
-  churchInput.tabIndex = -1;
-  churchInput.required = false;
+  setOpen(churchWrap, false, [regionalInput, churchInput]);
   successView.hidden = true;
   formView.hidden = false;
   document.getElementById("nome").focus();

@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Raleway:ital,wght@0,400;0,500;1,600;1,700&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/logo-conferencia.webp">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
   <div class="bg" aria-hidden="true">
@@ -68,7 +68,8 @@
     <section class="card" aria-labelledby="form-title">
       <div class="card-body" id="form-view">
         <h2 id="form-title">Confirme sua <span>presença</span></h2>
-        <p class="lead">Leva menos de 1 minuto. A gente te espera!</p>
+        <p class="lead lead-prize"><span aria-hidden="true">👕</span> Confirme sua presença para participar do <strong>sorteio da camisa UMADESP 2027</strong></p>
+        <p class="prize-meta">2 camisas · sorteio dia 31/10 · <a href="https://www.instagram.com/p/De7AUWuRR7K/" target="_blank" rel="noopener">Como participar <span aria-hidden="true">↗</span></a></p>
 
         <form id="rsvp" novalidate>
           <div class="field">
@@ -93,10 +94,20 @@
           </fieldset>
 
           <div class="reveal" id="igreja-wrap" aria-hidden="true">
-            <div class="field">
-              <label for="nome_igreja">Nome da igreja</label>
-              <input id="nome_igreja" name="nome_igreja" type="text" placeholder="Ex.: AD Brás · Setor 1" maxlength="120" tabindex="-1">
-              <small class="error" data-for="nome_igreja"></small>
+            <div class="row">
+              <div class="field">
+                <label for="regional">Regional</label>
+                <div class="combo">
+                  <input id="regional" name="regional" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="regional-list" autocomplete="off" inputmode="numeric" placeholder="Digite o nº" maxlength="40" tabindex="-1">
+                  <ul class="combo-list" id="regional-list" role="listbox" aria-label="Regionais" hidden></ul>
+                </div>
+                <small class="error" data-for="regional"></small>
+              </div>
+              <div class="field">
+                <label for="nome_igreja">Nome da igreja</label>
+                <input id="nome_igreja" name="nome_igreja" type="text" placeholder="Ex.: AD Brás · Setor 1" maxlength="120" tabindex="-1">
+                <small class="error" data-for="nome_igreja"></small>
+              </div>
             </div>
           </div>
 
@@ -115,6 +126,15 @@
         <div class="success-icon" aria-hidden="true">🔥</div>
         <h2>Presença <span>confirmada!</span></h2>
         <p class="lead"><strong id="success-name">Você</strong>, te esperamos no dia <strong>31 de outubro, às 19h</strong>, na <strong>AD Brás Vila Diva</strong>.</p>
+        <div class="prize-box">
+          <p class="prize-title"><span aria-hidden="true">👕</span> Sorteio de 2 camisas UMADESP 2027</p>
+          <ul class="prize-rules">
+            <li>Esteja presente na Conferência no dia 31/10</li>
+            <li>Siga <strong>@umadesp.leste1</strong></li>
+            <li>Curta o post do sorteio e marque 3 amigos</li>
+          </ul>
+        </div>
+        <a class="btn btn-prize" href="https://www.instagram.com/p/De7AUWuRR7K/" target="_blank" rel="noopener">Ir para o post do sorteio <span aria-hidden="true">↗</span></a>
         <a class="btn btn-ghost" href="https://www.instagram.com/umadesp.leste1/" target="_blank" rel="noopener">Seguir @umadesp.leste1</a>
         <button class="link" type="button" id="again">Confirmar outra pessoa</button>
       </div>
@@ -127,6 +147,6 @@
     <span>Regional Leste 1</span>
   </footer>
 
-  <script src="script.js?v=3" defer></script>
+  <script src="script.js?v=6" defer></script>
 </body>
 </html>

@@ -440,6 +440,130 @@ input[type="text"]:focus, input[type="tel"]:focus {
 
 .reveal.open { grid-template-rows: 1fr; opacity: 1; }
 
+/* Regional + nome da igreja lado a lado */
+.row {
+  display: grid;
+  grid-template-columns: minmax(118px, .8fr) 1.6fr;
+  gap: 10px;
+}
+
+/* Regional: sugestões enquanto digita */
+.reveal.settled > * { overflow: visible; }
+
+.combo { position: relative; }
+
+.combo-list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 264px;
+  max-width: calc(100vw - 48px);
+  max-height: 228px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  background: #01401c;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .5);
+  animation: pop .14s ease-out;
+}
+
+.combo-list[hidden] { display: none; }
+
+.combo-list li {
+  display: grid;
+  place-items: center;
+  height: 40px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, .07);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: background .12s, color .12s;
+}
+
+.combo-list li.wide { grid-column: 1 / -1; font-size: 14px; }
+.combo-list li.other { color: var(--orange); }
+
+.combo-list li:hover,
+.combo-list li.active { background: var(--olive); color: var(--green-950); }
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Sorteio */
+.lead-prize strong { color: var(--olive); font-weight: 700; }
+
+.prize-meta {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.prize-meta a {
+  color: var(--orange);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prize-meta a:hover { color: #ffa45c; }
+
+.prize-box {
+  margin: 16px 0 0;
+  padding: 12px 16px 12px 14px;
+  border-radius: 12px;
+  background: rgba(157, 179, 105, .12);
+  border: 1px solid rgba(157, 179, 105, .35);
+  text-align: left;
+}
+
+.prize-title {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.prize-rules {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, .85);
+}
+
+.prize-rules li { position: relative; padding-left: 22px; }
+
+.prize-rules li::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: .38em;
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--olive);
+  border-bottom: 2px solid var(--olive);
+  transform: rotate(-45deg);
+}
+
+.prize-rules strong { color: var(--white); }
+
+.btn-prize { margin-top: 16px; }
+
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
 /* Buttons */
@@ -491,7 +615,7 @@ input[type="text"]:focus, input[type="tel"]:focus {
   color: var(--white);
   border: 1px solid var(--line);
   box-shadow: none;
-  margin-top: 22px;
+  margin-top: 10px;
 }
 
 .btn-ghost:hover { background: rgba(255, 255, 255, .06); border-color: var(--orange); box-shadow: none; }
@@ -608,13 +732,15 @@ input[type="text"]:focus, input[type="tel"]:focus {
   .topbar { padding-top: 12px; }
   .hero { gap: 12px; padding-top: 2px; padding-bottom: 10px; }
   .logo { max-width: 84%; }
-  #form-view .lead { display: none; }
+  #form-view .lead { font-size: 13px; line-height: 1.35; }
+  .row { grid-template-columns: 112px 1fr; gap: 8px; }
   .meta { margin-top: 2px; gap: 6px 16px; }
   .tagline { font-size: 15px; }
   .card-body { padding: 18px 18px 16px; }
   .card h2 { font-size: 30px; }
   .card h2 span { display: inline; }
   .lead { margin-top: 6px; font-size: 14px; }
+  .prize-meta { font-size: 12px; }
   form { margin-top: 12px; }
   .field { margin-bottom: 10px; }
   .field label, .field legend { margin-bottom: 5px; font-size: 11px; }
@@ -633,4 +759,8 @@ input[type="text"]:focus, input[type="tel"]:focus {
   .place-cta { margin-left: 0; padding: 6px 9px; font-size: 10.5px; }
   .footer { letter-spacing: .18em; font-size: 11px; }
   .footer .dot { display: none; }
+}
+
+@media (max-width: 359px) {
+  .row { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
